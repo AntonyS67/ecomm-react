@@ -5,17 +5,19 @@ import {
   getCartByProductApi,
   removeToCartApi,
 } from "../api/cart";
-import { TOKEN } from "../utils/constants";
+import { useAuth } from "./useAuth";
 
 export const useCart = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [carts, setCarts] = useState([]);
 
+  const {auth} = useAuth()
+
   const getCart = async () => {
     try {
       setLoading(true);
-      const result = await getCartApi(TOKEN);
+      const result = await getCartApi(auth.token);
       setCarts(result.carts);
       setLoading(false);
     } catch (error) {
@@ -28,7 +30,7 @@ export const useCart = () => {
   const getCartByProduct = async (productId) => {
     try {
       setLoading(true);
-      const result = await getCartByProductApi(TOKEN, productId);
+      const result = await getCartByProductApi(auth.token, productId);
       setLoading(false);
       return result;
     } catch (error) {
@@ -40,7 +42,7 @@ export const useCart = () => {
   const addCart = async (data) => {
     try {
       setLoading(true);
-      await addToCartApi(data, TOKEN);
+      await addToCartApi(data, auth.token);
       setError(false);
     } catch (error) {
       setLoading(false);
@@ -51,7 +53,7 @@ export const useCart = () => {
   const deleteCart = async (id) => {
     try {
       setLoading(true);
-      await removeToCartApi(id, TOKEN);
+      await removeToCartApi(id, auth.token);
       setLoading(false);
     } catch (error) {
       setLoading(false);

@@ -61,9 +61,9 @@ export default function Navbar() {
             Login
           </a>
           <a
-            href="#"
+            href="/signup"
             className={`${
-              pathname.includes("/register")
+              pathname.includes("/signup")
                 ? "p-2 lg:px-4 md:mx-2 text-white rounded bg-indigo-600"
                 : "p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"
             }`}

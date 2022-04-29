@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import { deleteCategoryApi, getCategoriesApi,getCategoriesAllApi, saveCategoryApi, updateCategoryApi } from '../api/categories'
-import { TOKEN } from '../utils/constants'
+import { useAuth } from './useAuth'
+
 
 export function useCategory(){
     const [categories,setCategories] = useState([])
@@ -9,6 +10,8 @@ export function useCategory(){
     const [total,setTotal] = useState(0)
     const [pages,setPages] = useState(1)
 
+    const {auth} = useAuth()
+    
     const getCategoriesAll = async () => {
         try {
             setLoading(true)
@@ -38,7 +41,7 @@ export function useCategory(){
     const saveCategory = async (data) => {
         try {
             setLoading(true)
-            await saveCategoryApi(data,TOKEN)
+            await saveCategoryApi(data,auth.token)
             setLoading(false)
         } catch (error) {
             setLoading(false)
@@ -49,7 +52,7 @@ export function useCategory(){
     const updateCategory = async (data,id) => {
         try {
             setLoading(true)
-            await updateCategoryApi(data,id,TOKEN)
+            await updateCategoryApi(data,id,auth.token)
             console.log(data);
             setLoading(false)
         } catch (error) {
@@ -62,7 +65,7 @@ export function useCategory(){
     const deleteCategory = async (id) => {
         try {
             setLoading(true)
-            await deleteCategoryApi(id,TOKEN)
+            await deleteCategoryApi(id,auth.token)
             setLoading(false)
         } catch (error) {
             setLoading(false)

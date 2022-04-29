@@ -7,6 +7,7 @@ import {
   updateProductApi,
 } from "../api/products";
 import { TOKEN } from "../utils/constants";
+import { useAuth } from "./useAuth";
 
 export default function useProduct() {
   const [products, setProducts] = useState([]);
@@ -14,6 +15,8 @@ export default function useProduct() {
   const [error, setError] = useState(true);
   const [pages, setPages] = useState(1);
   const [total, setTotal] = useState(0);
+
+  const {auth} = useAuth()
 
   const getProducts = async (page) => {
     try {
@@ -44,10 +47,9 @@ export default function useProduct() {
   const saveProduct = async (data) => {
     try {
       setLoading(true);
-      await saveProductsApi(data, TOKEN);
+      await saveProductsApi(data, auth.token);
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setLoading(false);
       setError(error);
     }
@@ -56,7 +58,7 @@ export default function useProduct() {
   const updateProduct = async (data, id) => {
     try {
       setLoading(true);
-      await updateProductApi(data, id, TOKEN);
+      await updateProductApi(data, id, auth.token);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -67,7 +69,7 @@ export default function useProduct() {
   const deleteProduct = async (id) => {
     try {
       setLoading(true);
-      await deleteProductApi(id, TOKEN);
+      await deleteProductApi(id, auth.token);
       setLoading(false);
     } catch (error) {
       setLoading(false);
