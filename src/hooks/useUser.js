@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { logoutApi } from "../api/auth";
+import { removeToken } from "../api/token";
 import { getMeApi } from "../api/user";
 
-export async function useUser() {
+export default function useUser() {
   const getME = async (token) => {
     try {
       const response = await getMeApi(token);
@@ -11,7 +13,13 @@ export async function useUser() {
     }
   };
 
-  return {
-      getME
-  }
+  const logout = async (token) => {
+    try {
+      await logoutApi(token);
+      removeToken();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return { getME, logout };
 }

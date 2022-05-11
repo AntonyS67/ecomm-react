@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import postcss from './postcss.config.js'
 import react from '@vitejs/plugin-react'
+import shimReactPdf from "vite-plugin-shim-react-pdf";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,7 +11,7 @@ export default defineConfig({
   css: {
     postcss,
   },
-  plugins: [react()],
+  plugins: [react(),shimReactPdf()],
   resolve: {
     alias: [
       {

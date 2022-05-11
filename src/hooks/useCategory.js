@@ -11,7 +11,6 @@ export function useCategory(){
     const [pages,setPages] = useState(1)
 
     const {auth} = useAuth()
-    
     const getCategoriesAll = async () => {
         try {
             setLoading(true)

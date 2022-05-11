@@ -1,8 +1,18 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import useUser from "../../hooks/useUser";
 
 export default function Navbar() {
   const { pathname } = useLocation();
+  const { auth } = useAuth();
+  const { logout } = useUser();
+
+  const handleLogout = async () => {
+    await logout(auth.token);
+    window.location.reload();
+  };
+
   return (
     <nav className="bg-white py-2 md:py-4">
       <div className="container px-4 mx-auto md:flex md:items-center">
@@ -39,38 +49,53 @@ export default function Navbar() {
                 ? "p-2 lg:px-4 md:mx-2 text-white rounded bg-indigo-600"
                 : "p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"
             }`}
-            // className="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"
           >
             Carrito
           </a>
-          <a
-            href="#"
-            className="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"
-          >
-            Admin
-          </a>
-          <a
-            href="/login"
-            className={`${
-              pathname.includes("/login")
-                ? "p-2 lg:px-4 md:mx-2 text-white rounded bg-indigo-600"
-                : "p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"
-            }`}
-            // className="p-2 lg:px-4 md:mx-2 text-indigo-600 text-center border border-transparent rounded hover:bg-indigo-100 hover:text-indigo-700 transition-colors duration-300"
-          >
-            Login
-          </a>
-          <a
-            href="/signup"
-            className={`${
-              pathname.includes("/signup")
-                ? "p-2 lg:px-4 md:mx-2 text-white rounded bg-indigo-600"
-                : "p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"
-            }`}
-            // className="p-2 lg:px-4 md:mx-2 text-indigo-600 text-center border border-solid border-indigo-600 rounded hover:bg-indigo-600 hover:text-white transition-colors duration-300 mt-1 md:mt-0 md:ml-1"
-          >
-            Signup
-          </a>
+          {auth ? (
+            <>
+              {auth.me.user.role === "1" && (
+                <a
+                  href="/admin"
+                  className="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"
+                >
+                  Admin
+                </a>
+              )}
+              <p className="p-2 lg:px-4 md:mx-2 strong">
+                Bienvenido {auth.me.user.fullname}
+              </p>
+              <button
+                onClick={handleLogout}
+                className="p-2 lg:px-4 md:mx-2 text-white rounded bg-indigo-600"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <a
+                href="/login"
+                className={`${
+                  pathname.includes("/login")
+                    ? "p-2 lg:px-4 md:mx-2 text-white rounded bg-indigo-600"
+                    : "p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"
+                }`}
+              >
+                Login
+              </a>
+              <a
+                href="/signup"
+                className={`${
+                  pathname.includes("/signup")
+                    ? "p-2 lg:px-4 md:mx-2 text-white rounded bg-indigo-600"
+                    : "p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"
+                }`}
+              >
+                Signup
+              </a>
+            </>
+          )}
         </div>
       </div>
     </nav>

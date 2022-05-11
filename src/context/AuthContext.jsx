@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext } from "react";
 import { getToken, removeToken, setToken } from "../api/token";
-import { useUser } from "../hooks/useUser";
+import useUser from "../hooks/useUser";
 
 export const AuthContext = createContext({
   auth: undefined,

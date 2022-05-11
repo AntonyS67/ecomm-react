@@ -5,6 +5,8 @@ import "./css/style.scss";
 
 import "./charts/ChartjsConfig";
 
+import { AuthProvider } from "./context/AuthContext";
+
 // Import pages
 import Dashboard from "./pages/admin/Dashboard";
 import Categories from "./pages/admin/Categories";
@@ -14,7 +16,8 @@ import Home from "./pages/client/Home";
 import Cart from "./pages/client/Cart";
 import Login from "./pages/client/Login";
 import SignUp from "./pages/client/SignUp";
-import { AuthProvider } from "./context/AuthContext";
+import Pay from "./pages/client/Pay";
+import SuccessOrder from "./pages/client/SuccessOrder";
 
 function App() {
   const location = useLocation();
@@ -26,20 +29,20 @@ function App() {
   }, [location.pathname]); // triggered on route change
 
   return (
-    <>
-      <AuthProvider>
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/cart" element={<Cart />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/signup" element={<SignUp />} />
-          <Route exact path="/admin" element={<Dashboard />} />
-          <Route exact path="/admin/categories" element={<Categories />} />
-          <Route exact path="/admin/products" element={<Products />} />
-          <Route exact path="/admin/orders" element={<Orders />} />
-        </Routes>
-      </AuthProvider>
-    </>
+    <AuthProvider>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/cart" element={<Cart />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/signup" element={<SignUp />} />
+        <Route exact path="/pay" element={<Pay />} />
+        <Route exact path="/pay-success" element={<SuccessOrder />} />
+        <Route exact path="/admin" element={<Dashboard />} />
+        <Route exact path="/admin/categories" element={<Categories />} />
+        <Route exact path="/admin/products" element={<Products />} />
+        <Route exact path="/admin/orders" element={<Orders />} />
+      </Routes>
+    </AuthProvider>
   );
 }
 
